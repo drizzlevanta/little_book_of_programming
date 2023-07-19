@@ -1,0 +1,6 @@
+[book]
+authors = ["XX"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Little Book of Web Programming"
