@@ -1,6 +1,6 @@
 # Introduction
 
-This book includes some notes and best pratices of various technologies, patterns and architecture, including:
+This book includes some notes and best pratices of various web technologies, design patterns and architecture, including:
 
 - Micro Services + Micro Frontend
 - RxJS

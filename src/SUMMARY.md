@@ -5,9 +5,10 @@
 - [Architecture](architecture/README.md)
 
   - [Micro Services/Frontend](architecture/micro/README.md)
-
+    - [Micro Frontend](architecture/micro/micro_frontend.md)
     - [Best Practices](architecture/micro/best_practices.md)
     - [Considerations](architecture/micro/considerations.md)
+    - [Methods](architecture/micro/methods.md)
 
 - [Angular](angular/README.md)
 
@@ -36,3 +37,4 @@
 - [Web](web/README.md)
   - [Tree Shaking](web/tree_shaking.md)
   - [Event Loop](web/event_loop.md)
+  - [Memory Leak](web/memory_leak.md)
