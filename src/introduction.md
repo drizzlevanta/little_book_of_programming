@@ -6,5 +6,6 @@ This book includes some notes and best pratices of various web technologies, des
 - RxJS
 - Angular
 - NgRx
+- Nx
 - TypeScript
 - Web foundations

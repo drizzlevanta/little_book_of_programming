@@ -20,3 +20,25 @@
 1. define standards and conventions
 1. use of SSI?
 1. googd loading states for users?
+
+## Sharing the same database?
+
+Microservices can share a database, but it is generally not recommended as a best practice.
+
+Data model complexities: Different microservices might have different data requirements and structures. Sharing a database can lead to complex data models that are hard to manage and evolve.
+
+Performance bottlenecks: If multiple microservices are accessing the same database, it can create contention and performance issues, especially during high loads.
+
+Lack of independence: Changes to one microservice may have unintended consequences on other microservices that share the same database, leading to versioning and deployment challenges.
+
+Reduced fault isolation: A bug or issue in one microservice could affect others that rely on the shared database, making it harder to pinpoint the root cause of the problem.
+
+## Sharing a state store between MFEs?
+
+Redux is one of the most popular libraries for predictable state management. However, the general practice in using Redux is to have a single store, thereby having a single state object. This approach would mean that all the Micro Frontends would have a shared state. This is a violation of the Micro Frontend based architecture since each App is supposed to be a self-contained unit having its store.
+
+In a Micro Frontend architecture, an individual application should not be able to modify the state of other apps. However, they should be able to see the state of other apps. Along the same line for enabling cross-application communication, they should also be able to send events/actions to other Stores and also get notified of changes in other apps' state. This library aims to attain that sweet spot between providing isolation and cross-application communication.
+
+## Communication between MFEs
+
+IF we add providerIn:root to shared service, shell and remote mfe’s will initiate two instances of the services. Lazy loaded modules have their own root scope
