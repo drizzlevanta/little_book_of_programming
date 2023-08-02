@@ -35,10 +35,21 @@ Reduced fault isolation: A bug or issue in one microservice could affect others 
 
 ## Sharing a state store between MFEs?
 
-Redux is one of the most popular libraries for predictable state management. However, the general practice in using Redux is to have a single store, thereby having a single state object. This approach would mean that all the Micro Frontends would have a shared state. This is a violation of the Micro Frontend based architecture since each App is supposed to be a self-contained unit having its store.
+The general practice in using Redux is to have a single store, thereby having a single state object. This approach would mean that all the Micro Frontends would have a shared state. This is a violation of the Micro Frontend based architecture since each App is supposed to be a self-contained unit having its store.
 
-In a Micro Frontend architecture, an individual application should not be able to modify the state of other apps. However, they should be able to see the state of other apps. Along the same line for enabling cross-application communication, they should also be able to send events/actions to other Stores and also get notified of changes in other apps' state. This library aims to attain that sweet spot between providing isolation and cross-application communication.
+In a Micro Frontend architecture, an individual application should not be able to modify the state of other apps. However, they should be able to see the state of other apps. Along the same line for enabling cross-application communication, they should also be able to send events/actions to other Stores and also get notified of changes in other apps' state.
 
 ## Communication between MFEs
 
-IF we add providerIn:root to shared service, shell and remote mfe’s will initiate two instances of the services. Lazy loaded modules have their own root scope
+IF we add providerIn:root to shared service, shell and remote mfe’s will initiate two instances of the services. Lazy loaded modules have their own root scope.
+
+### Custom Events using Browser's API
+
+Use the browser's in-built custom event APIs to publish events with the data from one micro frontend. The other micro frontends subscribe to the events to get the data.
+
+- easy to scale
+- doesn't work for mobile MFE
+
+### Custom Message Bus
+
+Similar to one above, but instead of relying on browser's custom events API, we build our own pub-sub mechanism.
