@@ -16,6 +16,7 @@
   - [Directives](angular/directives.md)
   - [Content Projection](angular/content_projection.md)
   - [Dependency Injection](angular/di.md)
+  - [Peer Dependency](angular/peer_dependency.md)
   - [Signals](angular/signals.md)
   - [Best Practices](angular/best_practices.md)
 

@@ -1,6 +1,6 @@
 # Useful Operators
 
-Some useful RxJS Operators:
+## Useful RxJS Operators:
 
 - scan: With each emitted value, the accumulator function is applied, and the accumulated result is emitted instantaneously. You can remember this by the phrase "accumulate and emit on-the-go."
 - reduce: However, be cautious when using scan for cases where the only the final accumulated result is crucial. In those situations, the reduce operator may be more appropriate, as it emits only the final value after the source completes.
@@ -59,3 +59,11 @@ Some useful RxJS Operators:
     retry(2) // retry 2 times on error
   );
   ```
+
+## Comparisons
+
+### `forkJoin` vs `combineLatest`
+
+`forkJoin` require all input observables to be completed, but it also returns an observable that produces a single value that is an array of the last values produced by the input observables. In other words, it waits until the last input observable completes, and then produces a single value and completes.
+
+In contrast, `combineLatest` returns an observable that produces a new value every time the input observables do, once all input observables have produced at least one value. This means it could have infinite values and may not complete. It also means that the input observables don't have to complete before producing a value.
