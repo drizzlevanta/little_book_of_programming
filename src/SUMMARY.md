@@ -18,6 +18,7 @@
   - [Dependency Injection](angular/di.md)
   - [Peer Dependency](angular/peer_dependency.md)
   - [Signals](angular/signals.md)
+  - [Entry Points](angular/entry_points.md)
   - [Best Practices](angular/best_practices.md)
 
 - [RxJS](rxjs/README.md)
@@ -49,3 +50,4 @@
   - [Atomic](web/atomic.md)
   - [Build once, deploy everywhere](web/build_once.md)
   - [Security](web/security.md)
+  - [test](web/test/test.md)
