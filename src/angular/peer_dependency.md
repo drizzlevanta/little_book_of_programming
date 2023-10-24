@@ -1,6 +1,6 @@
 # Peer Dependency
 
-Peer dependencies is the dependencies of an npm package. Peer dependencies are provided by the consuming app.
+Peer dependencies is the dependencies of an npm package. Peer dependencies are declared by the library, and provided by the consuming application.
 
 A library is more like a pure function that gives you an output with a set input. A library is not instantiated, nor can it stand on its own, this is also due to that library bundles do not include any of its dependencies. Instances of the dependencies will need to be provided by the consuming apps.
 

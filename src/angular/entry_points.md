@@ -1,7 +1,9 @@
 # Entry Points
 
 In Angular libraries, an entry point refers to a module or a set of modules that are exposed and can be imported by consumers of the library. There could be a single entry point versus multiple entry points.
-For smaller libraries, a single entry point might be appropriate, while larger libraries could benefit from multiple entry points to manage bundle size.
+For smaller libraries, a single entry point might be appropriate, while larger libraries could benefit from multiple entry points to manage bundle size. 
+
+An Angular library with a single entry point is not tree-shakable by default. It is important to consider that when designing entry points. If bundle size is a concern, multiple entry points might be the way to go. 
 
 ## Single Entry Point:
 

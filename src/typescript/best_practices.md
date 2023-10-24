@@ -3,9 +3,9 @@
 ## Types
 
 - Don't ever have a generic type which doesn’t use its type parameter.
-- Don't use any as a type unless you are in the process of migrating a JavaScript project to TypeScript. In cases where you don’t know what type you want to accept, or when you want to accept anything because you will be blindly passing it through without interacting with it, you can use [`unknown`](https://www.typescriptlang.org/play#example/unknown-and-never)
-- Don't use the return type any for callbacks whose value will be ignored:
-- Using void as a return type
+- Don't use `any` as a type unless you are in the process of migrating a JavaScript project to TypeScript. In cases where you don’t know what type you want to accept, or when you want to accept anything because you will be blindly passing it through without interacting with it, you can use [`unknown`](https://www.typescriptlang.org/play#example/unknown-and-never)
+- `unknown` is the type-safe counterpart of `any`. Anything is assignable to unknown, but unknown isn’t assignable to anything but itself and any without a type assertion or a control flow based narrowing. Likewise, no operations are permitted on an unknown without first asserting or narrowing to a more specific type.
+- Don't use the return type any for callbacks whose value will be ignored. Use void as a return type
 - Use strict comparisons, we should make sure that we use ` ===`` and  `!==` for equality comparisons.
 - Use Strict String Expressions: `foo ${bar}` for string concatenation.
 - Add default for `Switch`
@@ -15,8 +15,8 @@
   function foo<N = number, S = string>() {}
   ```
 - Explicitly writing void as the return type is optional, but it can be beneficial for clarity and when you want to explicitly state that a function does not return any meaningful value. Additionally, it helps prevent potential issues when using strict mode in TypeScript.
-- Don’t use optional parameters in callbacks unless you really mean it
-- It’s always legal for a callback to disregard a parameter, so there’s no need for the shorter overload. Here the done param can be discarded.
+- Don't use optional parameters in callbacks unless you really mean it
+- It's always legal for a callback to disregard a parameter, so there’s no need for the shorter overload. Here the done param can be discarded.
   ```typescript
   /* OK */
   declare function beforeAll(
@@ -24,6 +24,8 @@
     timeout?: number
   ): void;
   ```
+- About Enum:
+
 
 ## Function Overloads
 
@@ -58,5 +60,25 @@ Use optional parameters instead of several overloads:
 ```typescript
 interface Example {
   diff(one: string, two?: string, three?: boolean): number;
+}
+```
+
+### Use Union Types
+You can replace the overloads:
+```typescript
+/* WRONG */
+interface Moment {
+  utcOffset(): number;
+  utcOffset(b: number): Moment;
+  utcOffset(b: string): Moment;
+}
+```
+
+with this:
+```typescript
+/* OK */
+interface Moment {
+  utcOffset(): number;
+  utcOffset(b: number | string): Moment;
 }
 ```

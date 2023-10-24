@@ -8,7 +8,7 @@ There are various ways of using observables in Angular. Below are some of the pa
     - Side effect observable, put side effects in the tap operator, and subscribe all at once:
     ```typescript
     scheduled(
-      [this.enabledPanelId$, this.onConnStatus$, this.dataRefreshTime$],
+      [this.enabledPanelId$, this.onStatus$, this.refreshTime$],
       asyncScheduler
     )
       .pipe(mergeAll(), takeUntil(this.stop$))
