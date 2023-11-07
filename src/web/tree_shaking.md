@@ -51,7 +51,3 @@ Dynamic Template Changes: @ViewChild and @ContentChild bindings can sometimes in
 ### Side effects
 
 Side effects (such as direct dom manupulation, network requests) can negatively impact various aspects of application development and maintenance, including tree shaking, bundle size, performance, and behavior consistency.
-
-diaglog service inter dependencies
-
-modular

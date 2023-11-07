@@ -13,14 +13,15 @@
 
   - [Use of RxJS](angular/rxjs.md)
   - [Peer Dependency](angular/peer_dependency.md)
+  - [Entry Points](angular/entry_points.md)
   - [Directives](angular/directives.md)
   - [Content Projection](angular/content_projection.md)
   - [Dependency Injection](angular/di.md)
+  - [Unit Test](angular/unit_test.md)
   - [Signals](angular/signals.md)
-  - [Entry Points](angular/entry_points.md)
   - [Best Practices](angular/best_practices.md)
   - [ExpressionHasChangedAfterChecked](angular/ExpressionHasChangedAfterChecked.md)
-  - [Unit Test](angular/unit_test.md)
+
 
 - [RxJS](rxjs/README.md)
 
@@ -52,3 +53,5 @@
   - [Atomic](web/atomic.md)
   - [Build once, deploy everywhere](web/build_once.md)
   - [Security](web/security.md)
+  - [CORS](web/cors.md)
+  - [Self-signed Certificate](web/self_signed_certs.md)
