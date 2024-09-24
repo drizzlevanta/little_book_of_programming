@@ -15,14 +15,15 @@
   - [Peer Dependency](angular/peer_dependency.md)
   - [Entry Points](angular/entry_points.md)
   - [Directives](angular/directives.md)
+  - [Pipes](angular/pipes.md)
   - [Content Projection](angular/content_projection.md)
   - [Dependency Injection](angular/di.md)
   - [Injection Context](angular/injection_context.md)
   - [Unit Test](angular/unit_test.md)
   - [Signals](angular/signals.md)
-  - [Best Practices](angular/best_practices.md)
   - [ExpressionHasChangedAfterChecked](angular/ExpressionHasChangedAfterChecked.md)
-
+  - [Control Flow](angular/control_flow.md)
+  - [Best Practices](angular/best_practices.md)
 
 - [RxJS](rxjs/README.md)
 
@@ -38,6 +39,7 @@
   - [Effects](ngrx/effects.md)
   - [Router Store](ngrx/router_store.md)
   - [Entity](ngrx/entity.md)
+  - [Signals](ngrx/signals.md)
   - [Best Practices](ngrx/best_practices.md)
 - [Nx](nx/README.md)
   - [Module Federation](nx/module_federation.md)
@@ -45,6 +47,7 @@
   - [Type, Interface and Class](typescript/type_interface_class.md)
   - [Config](typescript/config.md)
   - [Immutability](typescript/Immutability.md)
+  - [Operators](typescript/Operators.md)
   - [Best Practices](typescript/best_practices.md)
 - [Web](web/README.md)
   - [Tree Shaking](web/tree_shaking.md)

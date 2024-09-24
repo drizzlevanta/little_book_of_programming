@@ -24,3 +24,6 @@ Downsides:
 ## Module Federation vs Micro Frontend
 
 While Module Federation enables faster builds by vertically slicing your application into smaller ones, the MFE architecture layers independent deployments on top of federation. The Micro Frontend (MFE) architecture builds on top of Module Federation by providing independent deployability. Teams should only choose MFEs if they want to deploy their host and remotes independently.
+
+## Native Federation
+Native Federation is a browser-native implementation that can be used independently of build tools and frameworks. Browser-native means that we rely on modern and future browser technologies such as EcmaScript Modules and Import Maps.
