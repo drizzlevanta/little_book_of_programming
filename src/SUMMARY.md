@@ -23,7 +23,6 @@
   - [Best Practices](angular/best_practices.md)
   - [ExpressionHasChangedAfterChecked](angular/ExpressionHasChangedAfterChecked.md)
 
-
 - [RxJS](rxjs/README.md)
 
   - [Foundations](rxjs/foundations.md)
@@ -44,7 +43,8 @@
 - [TypeScript](typescript/README.md)
   - [Type, Interface and Class](typescript/type_interface_class.md)
   - [Config](typescript/config.md)
-  - [Immutability](typescript/Immutability.md)
+  - [Immutability](typescript/immutability.md)
+  - [Generic](typescript/generic.md)
   - [Best Practices](typescript/best_practices.md)
 - [Web](web/README.md)
   - [Tree Shaking](web/tree_shaking.md)
