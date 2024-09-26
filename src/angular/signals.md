@@ -1,10 +1,10 @@
 # Signals
-
 - A signal is a wrapper around a value that can notify interested consumers when that value changes. Signals can contain any value, from simple primitives to complex data structures.
+- Primary usage scenario of Signals: binding values reactively to the view. 
 - A signal's value is always read through a getter function, which allows Angular to track where the signal is used.
 - Signals may be either writable or read-only. Computed signals are not writable.
 - when working with signals that contain objects, sometime it's useful to mutate object directly?
-- computed signals are both **lazily evaluated and memorized**. doubleCount's derivation function does not run to alculate its value until the first time doubleCount is read. Once calculated, this value is cached, and future eads of doubleCount will return the cached value without recalculating. When count changes, it tells doubleCount hat its cached value is no longer valid, and the value is only recalculated on the next read of doubleCount.
+- computed signals are both **lazily evaluated and memorized**. In the example below: doubleCount's derivation function does not run to calculate its value until the first time doubleCount is read. Once calculated, this value is cached, and future reads of doubleCount will return the cached value without recalculating. When count changes, it tells doubleCount that its cached value is no longer valid, and the value is only recalculated on the next read of doubleCount.
 
   ```typescript
   const count: WritableSignal<number> = signal(0);
@@ -18,6 +18,8 @@
 - The computed signal will run as many times as it was read. If the involved signals were not modified between the reads, computation will not be recomputed. 
 - Will effect() run if a signal is updated but not changed? No, effect() is a consumer, and memoization works here as well.
 - When using signals in template, even if a computation itself will return the same value, it will still notify the consumer (in this case — the template), and it will still be recomputed (simply because we can not know the new value in advance). But if all the dependencies of this computed signal will return the same values, it will not notify the template, and, therefore, will not be recomputed.
+- Signals are glitch-free. If you change a signal several times in a row within a stack frame, only the last change will be seen by the consumer. This shows that Signals are not intended for modelling events but for data we want to bind to the view. In the cases we want to express events, observables are the way to go. 
+- Signals are less suitable for asynchronous tasks and for representing events: Firstly, they do not offer an easy way to deal with overlapping asynchronous requests and the resulting race conditions. In addition, they cannot directly represent error states. Secondly, Signals ignore the resulting intermediate states when value changes occur in direct succession.
 
 ## Lazy
 Unlike Angular's traditional change detection mechanism, signals do not automatically re-run whenever something in the component changes. They only react when their dependencies explicitly change, and even then, only when the signal's value is accessed.
@@ -54,8 +56,6 @@ user.set({ ...user(), age: 31 });
 Do not modify things in computed(). It should compute a new result, that’s it. Do not modify the DOM, do not mutate variables using this, and do not call functions that might do that. Do not push values to Observables — it will cause unintentional reactive context propagation (explained below for effect()). computed() should not have side effects, it should be a **pure function**.
 
 Do not make asynchronous calls in computed(). This function does not allow modification of Signals (and it is amazingly helpful), but it can not track asynchronous code. Moreover, Angular Signals are strictly synchronous, so if you want to use asynchronous code in computed(), you are doing something wrong. So, no setTimeout(), no Promises, no other asynchronous things.
-
-
 
 ## Rules about `effect()`
 The function you provide to effect() should be as small as possible. This way it will be easier to read and spot erroneous behavior.

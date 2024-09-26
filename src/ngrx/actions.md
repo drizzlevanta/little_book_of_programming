@@ -1,4 +1,5 @@
 # Actions
+In the context of NgRx, "indirection" refers to the practice of abstracting away direct interactions with the state or actions, often through the use of selectors, action creators, or effects. This concept allows for more modular, maintainable, and testable code by decoupling the business logic from the UI components and providing a layer of abstraction.
 
 - Event-Driven - capture events not commands as you are separating the description of an event and the handling of that event.
 - Action describes the event, reducer handles the events
