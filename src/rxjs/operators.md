@@ -59,6 +59,43 @@
     retry(2) // retry 2 times on error
   );
   ```
+- shareReplay: You generally want to use shareReplay when you have side-effects or taxing computations that you do not wish to be executed amongst multiple subscribers. It may also be valuable in situations where you know you will have late subscribers to a stream that need access to previously emitted values. This ability to replay values on subscription is what differentiates share and shareReplay.
+
+```typeScript
+import { timer } from 'rxjs';
+import { tap, mapTo, share } from 'rxjs/operators';
+
+//emit value in 1s
+const source = timer(1000);
+//log side effect, emit result
+const example = source.pipe(
+  tap(() => console.log('***SIDE EFFECT***')),
+  mapTo('***RESULT***')
+);
+
+/*
+  ***NOT SHARED, SIDE EFFECT WILL BE EXECUTED TWICE***
+  output:
+  "***SIDE EFFECT***"
+  "***RESULT***"
+  "***SIDE EFFECT***"
+  "***RESULT***"
+*/
+const subscribe = example.subscribe(val => console.log(val));
+const subscribeTwo = example.subscribe(val => console.log(val));
+
+//share observable among subscribers
+const sharedExample = example.pipe(share());
+/*
+  ***SHARED, SIDE EFFECT EXECUTED ONCE***
+  output:
+  "***SIDE EFFECT***"
+  "***RESULT***"
+  "***RESULT***"
+*/
+const subscribeThree = sharedExample.subscribe(val => console.log(val));
+const subscribeFour = sharedExample.subscribe(val => console.log(val));
+```
 
 ## Comparisons
 
