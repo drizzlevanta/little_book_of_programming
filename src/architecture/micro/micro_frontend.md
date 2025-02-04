@@ -19,6 +19,8 @@ Each MFE
 
 ## Use Cases
 
+Micro Frontends are not like Micro-Services in the sense that they can run isolated. For example all your MFs share the window object, which opens up possibilities for conflicts.
+
 We recommend MFE for teams that require applications to be deployed independently. It is important to consider the cost of MFEs and decide whether it makes sense for your own teams.
 
 - Version mismatches where applications are deployed with different versions of shared libraries, which can lead to incompatibility issues.
