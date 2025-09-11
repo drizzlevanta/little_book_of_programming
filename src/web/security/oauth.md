@@ -10,16 +10,99 @@ OAuth 2.0 is the industry-standard protocol for authorization. OAuth 2.0 focuses
 
 NPM package `angular-oauth2-oidc` provides support for OAuth 2 and OIDC in Angular.
 
-## OAuth Workflow
+### ID Token vs. Access Token
 
-Below is the workflow for OAuth code flow:
+- ID Token (OIDC): Contains claims about the authenticated user (e.g., sub, email, name).
+- Access Token (OAuth2): Used for authorizing API access, but does not inherently contain user identity details.
+  | Feature | OAuth 2.0 | OIDC |
+  |----------|----------|------|
+  | **Purpose** | Authorization | Authentication + Authorization |
+  | **Tokens** | Access Token, Refresh Token | ID Token, Access Token, Refresh Token |
+  | **User Authentication** | ❌ No | ✅ Yes |
+  | **Used for API access** | ✅ Yes | ✅ Yes |
+  | **Used for Login (SSO, Federated Identity)** | ❌ No | ✅ Yes |
+  | **Discovery Endpoint** | ❌ No | ✅ Yes |
 
-- User initiates login → Redirected to Authorization Server.
-- User authenticates & grants permission.
-- Client receives an authorization code.
-- Client exchanges authorization code for an access token.
-- Client uses access token to access APIs.
-- (Optional) Client refreshes token when it expires.
+### Authorization Code Workflow with PKCE
+
+The Authorization Code Flow is the most secure way to authenticate users and obtain access tokens in OAuth 2.0 and OpenID Connect (OIDC). It involves exchanging an authorization code for an access token (and optionally an ID token in OIDC).
+
+1. User initiates login, sends state, nonce and code challenge -> Redirected to Authorization Server.
+2. User logs in and grants permission. The user authenticates on the Authorization Server. The state is included in the redirect response. If authentication is successful, the user is asked to approve or deny the authorization request (**this includes verifying the state parameter matches the request**, if not, reject the response to prevent CSRF attacks).
+3. If the user approves, the authorization server redirects the user back to the application with an authorization code.
+4. Client exchanges authorization code for an access token (and an ID token in OIDC). The ID token contains user identity information.
+5. When the client request the access token, in addition to the authorization code, it also includes the original code verifier used to generate the code challenge. The authorization server verifies the code challenge in the client request.
+6. The client decodes the ID token and verifies: Does the nonce inside the ID token match the nonce originally sent? If not, reject the ID token because it may be a replay attack.
+7. Client uses access token to access APIs.
+8. (Optional) Client refreshes token when it expires.
+
+### Authorization Code Flow with PKCE
+
+PKCE (Proof Key for Code Exchange, pronounced "pixy") is an OAuth 2.0 security extension that prevents authorization code interception attacks. It is mandatory for public clients like SPAs and mobile apps that cannot safely store a client secret.
+
+Why is PKCE Needed? In a traditional Authorization Code Flow (without PKCE), an attacker could intercept the authorization code and use it to obtain an access token. Since public clients (e.g., SPAs, mobile apps) don't have a client secret, there's no way to verify that the request for an access token came from the legitimate client.
+
+PKCE solves this problem by adding a randomly generated code challenge that binds the authorization request to the token request.
+
+### How PKCE Works (Step-by-Step)
+
+PKCE modifies the **Authorization Code Flow** by adding two extra values:
+
+- **Code Verifier** (random secret stored in the client)
+- **Code Challenge** (derived from the code verifier and sent to the authorization server)
+
+#### 1. SPA/Mobile App Generates a Code Verifier & Code Challenge
+
+- A **random string** (`code_verifier`) is generated (43-128 characters).
+- A **hashed version** (`code_challenge`) is derived using SHA-256.
+
+#### 2. Client Requests Authorization Code
+
+- The SPA redirects the user to the **authorization server** with:
+- `client_id`
+- `redirect_uri`
+- `response_type=code`
+- `code_challenge` (the hashed value)
+- `code_challenge_method=S256`
+
+#### 3. User Logs In & Gets an Authorization Code
+
+- The authorization server authenticates the user.
+- It **stores** the `code_challenge` and sends the **authorization code** back to the SPA.
+
+#### 4. Client Exchanges Code for an Access Token
+
+- The SPA sends a **backend request** to exchange the code for an access token.
+- The request **includes the original `code_verifier`**.
+
+#### 5. Authorization Server Verifies the Code Verifier
+
+- The server **recomputes** the `code_challenge` from the `code_verifier` and **compares it** with the stored `code_challenge`.
+- If they match, the server issues an **access token**.
+
+### ROPC
+
+The Resource Owner Password Credentials (ROPC) Grant in OAuth2 allows a user to authenticate by directly sending their username and password to the application, which then exchanges them for an access token. While this method may seem simple, it is generally not recommended for modern applications due to several security risks and limitations:
+
+- Security Risk: The client application directly handles user credentials, increasing the risk of credential leaks.
+- No MFA Support: It does not support modern authentication methods like multi-factor authentication (MFA) or Single Sign-On (SSO).
+- Requires High Trust in Clients: The client must be fully trusted since it handles passwords directly.
+
+Only recommend this when other options are not viable.
+
+### Implicit flow
+
+Not recommended due to security risks. Implicit flow (directly returns access token), Previously used by SPAs to directly receive an access token in the URL, but is vulnerable to token leakage. Implicit flow does not involve a code, after user authenticates on the authorization server, it immediately returns an access token in the Url.
+
+### Keycloak
+
+In Keycloak, since the login page is served from Keycloak's backend, credentials never touch the client application directly.
+
+### Is the Access Token Exposed to the Browser?
+
+If an application stores the access token in session storage, **JavaScript code in the same origin** can access it. This means if an attacker injects malicious JavaScript via Cross-Site Scripting (XSS), they can steal the token.
+
+However, the token is not directly exposed in the URL (unlike in Implicit Flow), reducing exposure risk.
 
 ## State and Nounce
 
@@ -54,11 +137,9 @@ Occurs when an attacker injects malicious code into a web page, which then execu
 State Prevents CSRF:
 
 When the client initiates an OAuth/OIDC authentication request, it generates a unique state value and sends it along with the request.
-Once the authorization server responds, the client checks that the returned state matches the original value.
-This check confirms that the response was triggered by the client’s own request and not by a malicious third party (which might try to trick the user’s browser into sending a forged request).
-In this way, the state parameter helps prevent Cross-Site Request Forgery (CSRF) attacks.
+Once the authorization server responds, the client checks that the returned state matches the original value. This check confirms that the response was triggered by the client's own request and not by a malicious third party (which might try to trick the user's browser into sending a forged request). In this way, the state parameter helps prevent Cross-Site Request Forgery (CSRF) attacks.
 
-In summary, the state parameter ensures that the response is associated with the proper request (blocking CSRF), and the nonce confirms that the token is unique to the current session (blocking replay attacks). Neither state nor nonce protects against vulnerabilities like XSS; they are specifically designed to secure the OAuth/OIDC authentication process.
+In summary, the state parameter ensures that the response is associated with the proper request, the authorization request and response belong to the same client (blocking CSRF), and the nonce confirms that the token is unique to the current session (blocking replay attacks). Neither state nor nonce protects against vulnerabilities like XSS; they are specifically designed to secure the OAuth/OIDC authentication process.
 
 | Feature                   | `state`                                         | `nonce`                                     |
 | ------------------------- | ----------------------------------------------- | ------------------------------------------- |
@@ -68,7 +149,4 @@ In summary, the state parameter ensures that the response is associated with the
 | **Checked against?**      | The **redirect URL** from the Identity Provider | The **JWT (ID Token)** received after login |
 | **Generated by?**         | Your Angular app                                | Your Angular app                            |
 | **Checked by?**           | Your Angular app when processing the redirect   | Your Angular app before using the ID Token  |
-
-## ROPC
-
-The Resource Owner Password Credentials (ROPC) Grant in OAuth2 allows a user to authenticate by directly sending their username and password to the application, which then exchanges them for an access token. While this method may seem simple, it is generally not recommended for modern applications due to several security risks and limitations.
+| **Used in**               | OAuth 2.0                                       | OpenID Connect (OIDC)                       |

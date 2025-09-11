@@ -14,6 +14,5 @@
 - componenet should only do two things in the context of ngrx:
   - retrieve and display state from the store using NgRx selectors
   - dispatch actions based on user interactions
-- Use dedicated view selector?
-- In effects, use catchError operator to handle error
+- In effects, use `catchError` operator to handle error
 - Avoid saving derived state in state object: A common problem with NgRx and other state management libraries is saving derived state in your state object. The derived state is often updated via the reducer as a result of a change in another part of the state. This can cause the derived state to get out of sync if any of the reducers forgets to also update the derived state. That is the reason why NgRx recommends always accessing the derived state via selectors instead of saving it in the state object. However, if performance is an issue, you can try to save a minimal derived state in store.
