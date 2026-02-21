@@ -2,6 +2,8 @@
 
 ## GraphQL Error Design
 
+### Two types of approaches:
+
 ### References
 
 Two good articles on best practices on GraphQL error design:
@@ -15,6 +17,11 @@ Two good articles on best practices on GraphQL error design:
 - GraphQL errors encode **exceptional** scenarios: like a service being down, unauthentication, rate limit, timeout, syntax, or some other internal failure.
 - Errors which are part of the API domain should be captured within that domain.
 - User facing or actionable errors should be returned as data.
+
+In summary:
+
+- Critical errors that cannot be fixed by clients (e.g. a database error) - returned in `error` field
+- Recoverable errors that can be fixed by clients (e.g. invalid input data) - returned as `data`
 
 ### Use Union Result Types
 
@@ -33,9 +40,9 @@ type User {
   email: String!
 }
 
-#Malformed inputs
+// Malformed inputs
 type ValidationError {
-  # Allow several errors at the same time!
+  // Allow several errors at the same time!
   fieldErrors: [FieldError!]!
 }
 
@@ -44,7 +51,7 @@ type FieldError {
   message: String!
 }
 
-# Business specific errors (e.g. banned email providers)
+// Business specific errors (e.g. banned email providers)
 type ProfessionalEmailRequired {
   provider: String!
 }
