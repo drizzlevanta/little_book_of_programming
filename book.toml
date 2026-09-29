@@ -1,7 +1,7 @@
 [book]
-authors = ["XX"]
+authors = ["drizzlevanta"]
 language = "en"
 multilingual = false
 src = "src"
 title = "Little Book of Web Programming"
-description = "Notes and best pratices of various web technologies, design patterns and architecture"
+description = "Notes and best practices of various web technologies, design patterns and architecture"
