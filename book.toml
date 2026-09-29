@@ -1,7 +1,6 @@
 [book]
 authors = ["drizzlevanta"]
 language = "en"
-multilingual = false
 src = "src"
 title = "Little Book of Web Programming"
 description = "Notes and best practices of various web technologies, design patterns and architecture"
