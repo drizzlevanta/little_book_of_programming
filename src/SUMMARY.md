@@ -3,12 +3,13 @@
 [Introduction](introduction.md)
 
 - [Architecture](architecture/README.md)
-
   - [Micro Services/Frontend](architecture/micro/README.md)
     - [Micro Frontend](architecture/micro/micro_frontend.md)
     - [Best Practices](architecture/micro/best_practices.md)
     - [Considerations](architecture/micro/considerations.md)
-
+  - [In-Memory Cache](architecture/in_memory_cache.md)
+  - [Server Side Data Models](architecture/server_side_data_models.md)
+  - [Database](architecture/database.md) 
 - [Angular](angular/README.md)
 
   - [Use of RxJS](angular/rxjs.md)
